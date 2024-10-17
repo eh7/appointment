@@ -8,7 +8,8 @@ import {
   Col,
   Container,
   FloatingLabel,
-} from 'react-bootstrap';
+} from 'react-bootstrap'
+import { getWeeksInMonth } from '../services/DateData' 
 
 export default class Calendar extends React.Component {
   constructor (props) {
@@ -24,6 +25,7 @@ export default class Calendar extends React.Component {
   }
 
   render() {
+    const monthData = getWeeksInMonth('2024', '10'))
     return (
       <Container className="mb-3">
         <Card>
@@ -34,6 +36,10 @@ export default class Calendar extends React.Component {
             </Card.Title>
             <Card.Text>
               Card text goes here...
+              { monthData.map((item, index) => {
+                  console.log(index, item)
+                })
+              }  
             </Card.Text>
           </Card.Body>
           <Card.Footer>
