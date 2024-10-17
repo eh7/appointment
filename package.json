@@ -1,0 +1,35 @@
+{
+  "name": "appointment",
+  "version": "0.1.0",
+  "description": "React appointment slot management and booking components for web applications",
+  "main": "dist/index.js",
+  "scripts": {
+    "startSrc": "parcel src/index.html --open",
+    "testing": "npm run build && parcel src/index.html",
+    "build": "rm -f dist/* && parcel build src/index.html",
+    "start": "parcel src/index.html -p4323",
+    "dev": "http-server dist/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eh7/appointment.git"
+  },
+  "author": "Gavin Francis <gav@eh7.co.uk>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/eh7/appointment/issues"
+  },
+  "homepage": "https://github.com/eh7/appointment#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "parcel": "^2.12.0",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.5",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.12.0",
+    "process": "^0.11.10"
+  }
+}
