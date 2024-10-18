@@ -1,3 +1,13 @@
+const daysOfTheWeek = [
+  'M',
+  'T',
+  'W',
+  'T',
+  'F',
+  'S',
+  'S',
+];
+
 //note: month is 0 based, just like Dates in js
 function getWeeksInMonth(year, month) {
   const weeks = [],
@@ -8,7 +18,9 @@ function getWeeksInMonth(year, month) {
   let dayOfWeekCounter = firstDate.getDay();
 
   for (let date = 1; date <= numDays; date++) {
-    if (dayOfWeekCounter === 0 || weeks.length === 0) {
+    //if (dayOfWeekCounter === 0 || weeks.length === 0) {
+    // create row on Monday start of week by setting dayOfWeekCounter === 1
+    if (dayOfWeekCounter === 1 || weeks.length === 0) {
       weeks.push([]);
     }
     weeks[weeks.length - 1].push(date);
@@ -26,6 +38,7 @@ function getWeeksInMonth(year, month) {
 
 export {
   getWeeksInMonth,
+  daysOfTheWeek,
 }
 
 //exports.getWeeksInMonth = getWeeksInMonth;
