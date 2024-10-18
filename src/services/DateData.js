@@ -8,6 +8,24 @@ const daysOfTheWeek = [
   'S',
 ];
 
+function getMonthDays(_month) {
+  var months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+  return months[_month]
+}
+
 //note: month is 0 based, just like Dates in js
 function getWeeksInMonth(year, month) {
   const weeks = [],
@@ -38,6 +56,7 @@ function getWeeksInMonth(year, month) {
 
 export {
   getWeeksInMonth,
+  getMonthDays,
   daysOfTheWeek,
 }
 
