@@ -23,6 +23,8 @@ export default class Calendar extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
+      selectedMonth: '', 
+      selectedYear: '', 
       currentDate: new Date(),
       lastClassName: '',
       errors: {},
@@ -65,6 +67,9 @@ export default class Calendar extends React.Component {
   }
 
   render() {
+    this.state.selectedYear  = '2024'
+    this.state.selectedMonth = '9'
+
     const queryStringId = queryString.parse(window.location.search).id
     let queryStringMonth = null
     let queryStringYear = null 
