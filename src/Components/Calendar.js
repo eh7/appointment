@@ -1,6 +1,9 @@
 import * as React from 'react'
 import {
   Button,
+  ButtonGroup,
+  Dropdown,
+  DropdownButton,
   Form,
   FormGroup,
   Card,
@@ -32,6 +35,18 @@ export default class Calendar extends React.Component {
     };
   }
 
+  handleCurrentMonthView = () => {
+    this.setState({
+      selectedYear: this.state.currentDate.getFullYear(),
+      selectedMonth: this.state.currentDate.getMonth(),
+    })
+
+//    this.setState({
+//      selectedYear: '2024',
+//      selectedMonth: '9',
+//    })
+  }
+
   handleTdClick = (e) => {
     console.log('handleTdClick e ::', e)
     alert('td onclick :: ' + e.target.id)
@@ -61,12 +76,12 @@ export default class Calendar extends React.Component {
   handleMonthMouseOver = (e) => {
     //alert('handleMonthMouseOver')
     this.state.lastClassName = document.getElementById(e.target.id).className
-    document.getElementById(e.target.id).className = 'text-center  bg-info'
+    //document.getElementById(e.target.id).className = 'text-center  bg-info'
   }
 
   handleMonthMouseOut = (e) => {
     //alert('handleMonthMouseOut')
-    document.getElementById(e.target.id).className = this.state.lastClassName
+    //document.getElementById(e.target.id).className = this.state.lastClassName
   }
 
   componentDidMount = async () => {
@@ -95,12 +110,9 @@ export default class Calendar extends React.Component {
     const monthString = getMonthDays(month)
     const thisMonthData = getWeeksInMonth(year, month))
 
-//    const prevMonth = new Date(
-//      this.state.currentDate.getFullYear(),
-//      this.state.currentDate.getMonth() - 1,
-//      1,
-//    )
-    const monthsArray = getMonthsArray(this.state.currentDate, 5)
+//alert(new Date(year, month, 1))
+    //const monthsArray = getMonthsArray(this.state.currentDate, 5)
+    const monthsArray = getMonthsArray(new Date(year, month, 1), 5)
 //console.log(monthsArray)
 //alert(prevMonth)
 
@@ -109,13 +121,10 @@ export default class Calendar extends React.Component {
 
     const displayYear  = this.state.currentDate.toLocaleString('default', { year: 'numeric' })
     const displayMonth = this.state.currentDate.toLocaleString('default', { month: 'long' })
-    //const currentMonth = this.state.currentDate.toLocaleString('default', { month: 'long' });
-    //const currentMonth = this.state.currentDate.toLocaleString('default', { month: 'numeric' });
-    //console.log(this.state.currentDate.getMonth(), Number(month))
+
     if (this.state.currentDate.getMonth() === Number(month)) {
       currentDay = this.state.currentDate.getDate()
     }
-    //console.log(currentDay)
 
     return (
       <Container className="mb-3">
@@ -123,43 +132,67 @@ export default class Calendar extends React.Component {
           <Card.Header>Calendar for :: <i>{monthString} {year}</i></Card.Header>
           <Card.Body>
             <Card.Title>
-              { monthsArray[0].map((date, index) => {
-                  //console.log(index, date)
-                  const displayYear  = date.toLocaleString('default', { year: 'numeric' })
-                  const displayMonth = date.toLocaleString('default', { month: 'long' })
-                  //console.log({displayYear,displayMonth})
-                  return (
-                    <div
-                      id={displayMonth + '-' + displayYear}
-                      className='text-center'
-                      onClick={this.handleMonthClicked}
-                      onMouseOver={this.handleMonthMouseOver}
-                      onMouseOut={this.handleMonthMouseOut}
-                    >
-                      {displayMonth + ' ' + displayYear}
-                    </div>
-                  )
-                })
-              }
-              <div className='text-center bg-warning'>{monthString} {year}</div>
-              { monthsArray[1].map((date, index) => {
-                  //console.log(index, date)
-                  const displayYear  = date.toLocaleString('default', { year: 'numeric' })
-                  const displayMonth = date.toLocaleString('default', { month: 'long' })
-                  //console.log({displayYear,displayMonth})
-                  return (
-                    <div
-                      id={displayMonth + '-' + displayYear}
-                      className='text-center'
-                      onClick={this.handleMonthClicked}
-                      onMouseOver={this.handleMonthMouseOver}
-                      onMouseOut={this.handleMonthMouseOut}
-                    >
-                      {displayMonth + ' ' + displayYear}
-                    </div>
-                  )
-                })
-              }
+              <Row>
+                <Col className='text-start'>
+                  <DropdownButton
+                    as={ButtonGroup}
+                    key='beforeCurrentDate'
+                    id='dropdown-variants-warn-before'
+                    variant='warn'
+                    title="<< before"
+                  >
+                    { monthsArray[0].map((date, index) => {
+                        //console.log(index, date)
+                        const displayYear  = date.toLocaleString('default', { year: 'numeric' })
+                        const displayMonth = date.toLocaleString('default', { month: 'long' })
+                        //console.log({displayYear,displayMonth})
+                        return (
+                          <Dropdown.Item
+                            id={displayMonth + '-' + displayYear}
+                            className='text-center'
+                            onClick={this.handleMonthClicked}
+                            onMouseOver={this.handleMonthMouseOver}
+                            onMouseOut={this.handleMonthMouseOut}
+                          >
+                            {displayMonth + ' ' + displayYear}
+                          </Dropdown.Item>
+                        )
+                      })
+                    }
+                  </DropdownButton>
+                </Col>
+                <Col className='text-center'>
+                  <div className='text-center bg-warning'>{monthString} {year}</div>
+                </Col>
+                <Col className='text-end'>
+                  <DropdownButton
+                    as={ButtonGroup}
+                    key='afterCurrentDate'
+                    id='dropdown-variants-warn-after'
+                    variant='warn'
+                    title="after >>"
+                  >
+                    { monthsArray[1].map((date, index) => {
+                        //console.log(index, date)
+                        const displayYear  = date.toLocaleString('default', { year: 'numeric' })
+                        const displayMonth = date.toLocaleString('default', { month: 'long' })
+                        //console.log({displayYear,displayMonth})
+                        return (
+                          <Dropdown.Item
+                            id={displayMonth + '-' + displayYear}
+                            className='text-center'
+                            onClick={this.handleMonthClicked}
+                            onMouseOver={this.handleMonthMouseOver}
+                            onMouseOut={this.handleMonthMouseOut}
+                          >
+                            {displayMonth + ' ' + displayYear}
+                          </Dropdown.Item>
+                        )
+                      })
+                    }
+                  </DropdownButton>
+                </Col>
+              </Row>
             </Card.Title>
             <Card.Text>
               <Table striped bordered /*hover*/>
@@ -209,7 +242,7 @@ export default class Calendar extends React.Component {
             </Card.Text>
           </Card.Body>
           <Card.Footer>
-             Current Time: { this.state.currentDate.toString() }
+             Current Time: <Button variant="link" id='currentMonthView' onClick={this.handleCurrentMonthView}>{ this.state.currentDate.toString() }</Button>
           </Card.Footer>
         </Card>
       </Container>
