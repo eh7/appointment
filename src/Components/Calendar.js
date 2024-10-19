@@ -40,7 +40,7 @@ export default class Calendar extends React.Component {
   handleCurrentMonthView = () => {
     this.setState({
       selectedYear: this.state.currentDate.getFullYear(),
-      selectedMonth: this.state.currentDate.getMonth(),
+      selectedMonth: String(this.state.currentDate.getMonth()),
     })
 
 //    this.setState({
@@ -143,7 +143,7 @@ export default class Calendar extends React.Component {
                     variant='warn'
                     title="<< before"
                   >
-                    { monthsArray[0].map((date, index) => {
+                    { monthsArray[0].reverse().map((date, index) => {
                         //console.log(index, date)
                         const displayYear  = date.toLocaleString('default', { year: 'numeric' })
                         const displayMonth = date.toLocaleString('default', { month: 'long' })
@@ -224,7 +224,7 @@ export default class Calendar extends React.Component {
                                   ) &&
                                   <td colSpan={7 - item.dates.length}></td>
                                 }
-                                { (currentDay === rowItem && year === String(this.state.currentDate.getFullYear())) ? 
+                                { (currentDay === rowItem && (year === String(this.state.currentDate.getFullYear()) || year === this.state.currentDate.getFullYear())) ?
                                   (<td id={year + '::' + month + '::' + rowItem} onClick={this.handleTdClick} onMouseOver={this.handleOnMouseOver} onMouseOut={this.handleOnMouseOut} className='text-center bg-warning'>
                                     {rowItem}
                                     {console.log(year, this.state.currentDate.getFullYear(),  year === String(this.state.currentDate.getFullYear()))}
