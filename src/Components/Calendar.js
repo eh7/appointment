@@ -23,8 +23,8 @@ export default class Calendar extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      selectedMonth: '', 
-      selectedYear: '', 
+      selectedMonth: '9', 
+      selectedYear: '2024', 
       currentDate: new Date(),
       lastClassName: '',
       errors: {},
@@ -47,9 +47,15 @@ export default class Calendar extends React.Component {
   }
 
   handleMonthClicked = (e) => {
-    console.log(e.target.id)
-    window.location = '/?id=' + e.target.id
-    //alert('handleMonthClicked')
+    //console.log(e.target.id)
+    this.setState({
+      selectedYear: e.target.id.split('-')[1],
+      selectedMonth: String(getMonthNumeric(e.target.id.split('-')[0]))
+    })
+    //console.log(e.target.id, this.state)
+    //window.location = '/?id=' + e.target.id
+    //this.state.selectedYear  = e.target.id.split('-')[1] 
+    //this.state.selectedMonth = e.target.id.split('-')[0]
   }
 
   handleMonthMouseOver = (e) => {
@@ -64,11 +70,17 @@ export default class Calendar extends React.Component {
   }
 
   componentDidMount = async () => {
+    console.log('componentDidMount')
+  }
+
+  componentDidUpdate = async () => {
+    console.log('componentDidUpdate')
   }
 
   render() {
-    this.state.selectedYear  = '2024'
-    this.state.selectedMonth = '9'
+//    this.state.selectedYear  = '2024'
+//    this.state.selectedMonth = '9'
+//alert('render :: ' + JSON.stringify(this.state))
 
     const queryStringId = queryString.parse(window.location.search).id
     let queryStringMonth = null
@@ -77,8 +89,9 @@ export default class Calendar extends React.Component {
       [queryStringMonth, queryStringYear] = queryStringId.split('-')
     }
 
-    const year = queryStringYear || '2024'
-    const month = (getMonthNumeric(queryStringMonth) > -1) ? getMonthNumeric(queryStringMonth) :'9' // months 0 to 11 (Jan to Dec)
+    const year = queryStringYear || this.state.selectedYear || '2024'
+    const month = (getMonthNumeric(queryStringMonth) > -1) ? getMonthNumeric(queryStringMonth) : this.state.selectedMonth || '9' // months 0 to 11 (Jan to Dec)
+
     const monthString = getMonthDays(month)
     const thisMonthData = getWeeksInMonth(year, month))
 
@@ -111,10 +124,10 @@ export default class Calendar extends React.Component {
           <Card.Body>
             <Card.Title>
               { monthsArray[0].map((date, index) => {
-                  console.log(index, date)
+                  //console.log(index, date)
                   const displayYear  = date.toLocaleString('default', { year: 'numeric' })
                   const displayMonth = date.toLocaleString('default', { month: 'long' })
-                  console.log({displayYear,displayMonth})
+                  //console.log({displayYear,displayMonth})
                   return (
                     <div
                       id={displayMonth + '-' + displayYear}
@@ -130,13 +143,13 @@ export default class Calendar extends React.Component {
               }
               <div className='text-center bg-warning'>{monthString} {year}</div>
               { monthsArray[1].map((date, index) => {
-                  console.log(index, date)
+                  //console.log(index, date)
                   const displayYear  = date.toLocaleString('default', { year: 'numeric' })
                   const displayMonth = date.toLocaleString('default', { month: 'long' })
-                  console.log({displayYear,displayMonth})
+                  //console.log({displayYear,displayMonth})
                   return (
                     <div
-                      id={displayMonth + ' ' + displayYear}
+                      id={displayMonth + '-' + displayYear}
                       className='text-center'
                       onClick={this.handleMonthClicked}
                       onMouseOver={this.handleMonthMouseOver}
