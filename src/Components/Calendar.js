@@ -13,6 +13,9 @@ import {
   Container,
   FloatingLabel,
   Table,
+  Overlay,
+  Popover,
+  Modal,
 //  MenuItem,
 } from 'react-bootstrap'
 import queryString from "query-string"
@@ -22,6 +25,7 @@ import {
   getMonthNumeric,
   getMonthsArray,
   daysOfTheWeek,
+  getHoursInDay,
 } from '../services/DateData' 
 
 export default class Calendar extends React.Component {
@@ -32,6 +36,8 @@ export default class Calendar extends React.Component {
       selectedYear: '2024', 
       currentDate: new Date(),
       lastClassName: '',
+      showDayModal: false,
+      idDayModal: null,
       errors: {},
       input: {},
     };
@@ -50,8 +56,12 @@ export default class Calendar extends React.Component {
   }
 
   handleTdClick = (e) => {
-    console.log('handleTdClick e ::', e)
-    alert('td onclick :: ' + e.target.id)
+    this.setState({
+       showDayModal: true,
+       idDayModal: e.target.id,
+     })
+    //console.log('handleTdClick e ::', e)
+    //alert('td onclick :: ' + e.target.id)
   }
 
   handleOnMouseOver = (e) => {
@@ -84,6 +94,16 @@ export default class Calendar extends React.Component {
   handleMonthMouseOut = (e) => {
     //alert('handleMonthMouseOut')
     //document.getElementById(e.target.id).className = this.state.lastClassName
+  }
+
+  handleClickModalButton = (e) => {
+    this.setState({ showDayModal: true })
+    console.log('handleClickModalButton')
+  }
+
+  handleClose = () => {
+    this.setState({ showDayModal: false })
+    console.log('handleClose :: handleCloseModal')
   }
 
   componentDidMount = async () => {
@@ -130,6 +150,49 @@ export default class Calendar extends React.Component {
 
     return (
       <Container className="mb-3">
+
+        <Modal show={this.state.showDayModal} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              Select a timeslot for {String(this.state.idDayModal).split('::')[2]} {getMonthDays(String(this.state.idDayModal).split('::')[1])} {String(this.state.idDayModal).split('::')[0]}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            green free, organge maybe, red not available
+            <Table striped bordered /*hover*/>
+              <thead>
+                <tr>
+                  <th className='text-center'>
+                    time
+                  </th>
+                  <th className='text-center'>
+                    available
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {getHoursInDay('year','month','day').map((item, index) => {
+                  return (
+                    <tr>
+                      <td className='text-center'>
+                        {item}
+                      </td>
+                      <td className='text-center'>
+                        ???status???
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </Table>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
         <Card>
           <Card.Header>Calendar for :: <i>{monthString} {year}</i></Card.Header>
           <Card.Body>
@@ -227,7 +290,6 @@ export default class Calendar extends React.Component {
                                 { (currentDay === rowItem && (year === String(this.state.currentDate.getFullYear()) || year === this.state.currentDate.getFullYear())) ?
                                   (<td id={year + '::' + month + '::' + rowItem} onClick={this.handleTdClick} onMouseOver={this.handleOnMouseOver} onMouseOut={this.handleOnMouseOut} className='text-center bg-warning'>
                                     {rowItem}
-                                    {console.log(year, this.state.currentDate.getFullYear(),  year === String(this.state.currentDate.getFullYear()))}
                                   </td>) :
                                   (<td id={year + '::' + month + '::' + rowItem} onClick={this.handleTdClick} onMouseOver={this.handleOnMouseOver} onMouseOut={this.handleOnMouseOut} className='text-center'>
                                    {rowItem}

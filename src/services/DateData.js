@@ -83,12 +83,22 @@ function getWeeksInMonth(year, month) {
     }));
 }
 
+function getHoursInDay(year, month, day) {
+  console.log('getHoursInDay', year, month, day)
+  const hours = []
+  for(let i = 9; i < 18; i++) {
+    hours.push(('0'+i).slice(-2) + ":00")
+  }
+  return hours
+}
+
 export {
   getWeeksInMonth,
   getMonthDays,
   getMonthNumeric,
   getMonthsArray,
   daysOfTheWeek,
+  getHoursInDay,
 }
 
 //exports.getWeeksInMonth = getWeeksInMonth;
