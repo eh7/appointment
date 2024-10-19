@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {
   Button,
+  ButtonToolbar,
   ButtonGroup,
   Dropdown,
   DropdownButton,
@@ -12,6 +13,7 @@ import {
   Container,
   FloatingLabel,
   Table,
+//  MenuItem,
 } from 'react-bootstrap'
 import queryString from "query-string"
 import {
@@ -112,7 +114,7 @@ export default class Calendar extends React.Component {
 
 //alert(new Date(year, month, 1))
     //const monthsArray = getMonthsArray(this.state.currentDate, 5)
-    const monthsArray = getMonthsArray(new Date(year, month, 1), 5)
+    const monthsArray = getMonthsArray(new Date(year, month, 1), 12)
 //console.log(monthsArray)
 //alert(prevMonth)
 
@@ -222,9 +224,10 @@ export default class Calendar extends React.Component {
                                   ) &&
                                   <td colSpan={7 - item.dates.length}></td>
                                 }
-                                { (currentDay === rowItem) ? 
+                                { (currentDay === rowItem && year === String(this.state.currentDate.getFullYear())) ? 
                                   (<td id={year + '::' + month + '::' + rowItem} onClick={this.handleTdClick} onMouseOver={this.handleOnMouseOver} onMouseOut={this.handleOnMouseOut} className='text-center bg-warning'>
                                     {rowItem}
+                                    {console.log(year, this.state.currentDate.getFullYear(),  year === String(this.state.currentDate.getFullYear()))}
                                   </td>) :
                                   (<td id={year + '::' + month + '::' + rowItem} onClick={this.handleTdClick} onMouseOver={this.handleOnMouseOver} onMouseOut={this.handleOnMouseOut} className='text-center'>
                                    {rowItem}
