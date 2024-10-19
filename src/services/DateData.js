@@ -8,6 +8,35 @@ const daysOfTheWeek = [
   'S',
 ];
 
+function getMonthsArray(_date, _count) {
+  const months = [[],[]]
+  for (let day = _count; day > 0; day--) {
+    months[0].push(new Date(_date.getFullYear(), _date.getMonth() - day, 1))
+  }
+  for (let day = 1; day <= _count; day++) {
+    months[1].push(new Date(_date.getFullYear(), _date.getMonth() + day, 1))
+  }
+  return months
+}
+
+function getMonthNumeric(_month) {
+  var months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+  return months.indexOf(_month)
+}
+
 function getMonthDays(_month) {
   var months = [
     'January',
@@ -57,6 +86,8 @@ function getWeeksInMonth(year, month) {
 export {
   getWeeksInMonth,
   getMonthDays,
+  getMonthNumeric,
+  getMonthsArray,
   daysOfTheWeek,
 }
 
